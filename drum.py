@@ -19,17 +19,21 @@ class Drum():
 
     def in_area(self, palm_position):
         x = palm_position[0]
-        y = palm_position[1]
+        y = palm_position[2]
 
-        if (self.area[0][0] < x and x < self.area[1][0] and
-            self.area[0][1] < y and x < self.area[1][1]):
+        if (self.area[0][0] <= x and x < self.area[1][0] and
+            self.area[0][1] <= y and y < self.area[1][1]):
             return True
 
 
     def trigger(self):
         if not self.triggered:
-            self.sound.play()
             self.triggered = True
+
+    def play(self):
+        if not self.triggered:
+            self.sound.play()
+        self.trigger()
 
     def untrigger(self):
         self.triggered = False

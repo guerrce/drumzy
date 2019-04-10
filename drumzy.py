@@ -9,18 +9,24 @@ import drum
 
 SCREEN_SIZE = (1000, 1000)
 
-DRUM_COUNT = 4
+DRUM_COUNT = 1
 DRUM_LIST = []
 DRUM_LOCATIONS = []
 
 def main():
+	pygame.mixer.init()
+	sound1 = load_sound("sound_clips/Kick1.wav")
+	sound2 = load_sound("sound_clips/Snare1.wav")
 	# Note: this works best for constant drums
 	# Need to be adjusted once we can get user selected drum count
-	for drum in range(DRUM_COUNT):
-		pass
+	example_drum1 = drum.Drum(((-100, -50) , (0, 50)), sound1)
+	example_drum2 = drum.Drum(((0, -50) , (100, 50)), sound2)
+
+	DRUM_LIST.append(example_drum1)
+	DRUM_LIST.append(example_drum2)
 
 	# Create a sample listener and controller
-	listener = SampleListener()
+	listener = SampleListener(DRUM_LIST)
 	controller = Leap.Controller()
 
 	# Have the sample listener receive events from the controller
