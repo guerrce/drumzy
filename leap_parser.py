@@ -7,10 +7,10 @@ from load_sound import load_sound
 
 class SampleListener(Leap.Listener):
     
-    def __init__(self, drums):
+    def __init__(self, drums, surface):
         Leap.Listener.__init__(self)
         self.drums = drums
-        self.sound = load_sound("sound_clips/Kick1.wav")
+        self.surface = surface
         self.triggered = False
     
 
@@ -24,6 +24,7 @@ class SampleListener(Leap.Listener):
         print("Disconnected")
 
     def on_exit(self, controller):
+        pygame.quit()
         print("Exited")
 
     def on_frame(self, controller):
@@ -38,12 +39,15 @@ class SampleListener(Leap.Listener):
             print("Palm " + str(i+1) +  " position:", palm)
             
             for drum in self.drums:
+                color = (255, 255, 255)
                 if palm[1] < 150:
                     if drum.in_area(palm):
                         drum.play()
+                        color = (255, 0, 0)
                     drum.trigger()
                 else:
                     drum.untrigger()
+                pygame.draw.rect(self.surface, color, drum.rect)
 
 def main():
     return

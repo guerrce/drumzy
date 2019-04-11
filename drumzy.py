@@ -5,56 +5,59 @@ import pygame
 
 from leap_parser import SampleListener
 from load_sound import load_sound
+from visualize import init_screen
 import drum
 
-SCREEN_SIZE = (1000, 1000)
+SCREEN_SIZE = (500, 500)
 
 DRUM_COUNT = 1
 DRUM_LIST = []
 DRUM_LOCATIONS = []
 
 def main():
-	pygame.mixer.init()
-	sound1 = load_sound("sound_clips/Kick1.wav")
-	sound2 = load_sound("sound_clips/Snare1.wav")
-	# Note: this works best for constant drums
-	# Need to be adjusted once we can get user selected drum count
-	example_drum1 = drum.Drum(((-100, -50) , (0, 50)), sound1)
-	example_drum2 = drum.Drum(((0, -50) , (100, 50)), sound2)
+    # Note: this works only for two drums
+    # Need to be adjusted once we can get user selected drum count
+    pygame.mixer.init()
+    sound1 = load_sound("sound_clips/Kick1.wav")
+    sound2 = load_sound("sound_clips/Snare1.wav")
 
-	DRUM_LIST.append(example_drum1)
-	DRUM_LIST.append(example_drum2)
+    drum1Rect = pygame.Rect(0,0,250, 500)
+    drum2Rect = pygame.Rect(250,0,250, 500)
+    
+    example_drum1 = drum.Drum(((-100, -50) , (0, 50)), sound1, drum1Rect)
+    example_drum2 = drum.Drum(((0, -50) , (100, 50)), sound2, drum2Rect)
 
-	# Create a sample listener and controller
-	listener = SampleListener(DRUM_LIST)
-	controller = Leap.Controller()
+    DRUM_LIST.append(example_drum1)
+    DRUM_LIST.append(example_drum2)
 
-	# Have the sample listener receive events from the controller
-	controller.add_listener(listener)
+    #Initialize visuals
+    surface = init_screen(SCREEN_SIZE)
 
-	"""
-	# Initialize GUI
-	pygame.init()
-	screen = pygame.display.set_mode(SCREEN_SIZE)
-	pygame.display.set_caption('Drumzy')
-	background = pygame.Surface(screen.get_size())
-	background = background.convert()
-	background.fill((250, 250, 250))
+    # Create the listener and controller
+    listener = SampleListener(DRUM_LIST,surface)
+    controller = Leap.Controller()
 
-	screen.blit(background, (0, 0))
-	pygame.display.flip()
+    # Have the listener receive events from the controller
+    controller.add_listener(listener)
 
-	for event in pygame.event.get():
-	    if event.type == QUIT:
-	        return
-	"""
+    running = True
+    while running:
+        
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+                running = False
+                break
 
-	# Keep this process running until Enter is pressed
-	print("Press Enter to quit...")
-	sys.stdin.readline()
+        pygame.display.flip()
 
-	# Remove the sample listener when done
-	controller.remove_listener(listener)
+    # Keep this process running until Enter is pressed
+    print("Press Enter to quit...")
+    sys.stdin.readline()
+
+    # Remove the sample listener when done
+    controller.remove_listener(listener)
 
 if __name__ == "__main__":
     main()

@@ -11,11 +11,11 @@ class Drum():
     param rect: pygame Rectangle for visualization (add this later)
     """
 
-    def __init__(self, area, sound):
+    def __init__(self, area, sound, rect):
         self.area = area
         self.sound = sound
         self.triggered = False
-        #self.rect = rect
+        self.rect = rect
 
     def in_area(self, palm_position):
         x = palm_position[0]
