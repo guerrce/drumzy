@@ -21,8 +21,8 @@ def main():
     sound1 = load_sound("sound_clips/Kick1.wav")
     sound2 = load_sound("sound_clips/Snare1.wav")
 
-    drum1Rect = pygame.Rect(0,0,250, 500)
-    drum2Rect = pygame.Rect(250,0,250, 500)
+    drum1Rect = pygame.Rect(1,1,248, 498)
+    drum2Rect = pygame.Rect(251,1,248, 498)
     
     example_drum1 = drum.Drum(((-100, -50) , (0, 50)), sound1, drum1Rect)
     example_drum2 = drum.Drum(((0, -50) , (100, 50)), sound2, drum2Rect)

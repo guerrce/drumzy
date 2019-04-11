@@ -39,7 +39,7 @@ class SampleListener(Leap.Listener):
             print("Palm " + str(i+1) +  " position:", palm)
             
             for drum in self.drums:
-                color = (255, 255, 255)
+                color = (200, 200, 200)
                 if palm[1] < 150:
                     if drum.in_area(palm):
                         drum.play()
@@ -48,6 +48,13 @@ class SampleListener(Leap.Listener):
                 else:
                     drum.untrigger()
                 pygame.draw.rect(self.surface, color, drum.rect)
+
+            x = int(((palm[0] + 117.5) / 235) * 500)
+            y = int(((palm[2] + 73.5) / 147) * 500)
+            cursor_loc = (x,y)
+
+            print("cursor location: ",cursor_loc)
+            pygame.draw.circle(self.surface, (0,0,0), cursor_loc, 20)
 
 def main():
     return
