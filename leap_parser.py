@@ -4,14 +4,15 @@ import pygame
 from load_sound import load_sound
 
 
-
+ACTIVATION_HEIGHT = 200
 class SampleListener(Leap.Listener):
     
-    def __init__(self, drums, surface):
+    def __init__(self, drums, surface, screen_size):
         Leap.Listener.__init__(self)
         self.drums = drums
         self.surface = surface
         self.triggered = False
+        self.screen_size = screen_size
     
 
     def on_init(self, controller):
@@ -37,20 +38,22 @@ class SampleListener(Leap.Listener):
             hand = hands[i]
             palm = hand.palm_position
             print("Palm " + str(i+1) +  " position:", palm)
+            border_color = (0,0,0)
             
             for drum in self.drums:
-                color = (200, 200, 200)
-                if palm[1] < 150:
+                fill_color = (175, 175, 175)
+                if palm[1] < ACTIVATION_HEIGHT:
                     if drum.in_area(palm):
                         drum.play()
-                        color = (255, 0, 0)
+                        fill_color = (255, 0, 0)
                     drum.trigger()
                 else:
                     drum.untrigger()
-                pygame.draw.rect(self.surface, color, drum.rect)
+                pygame.draw.rect(self.surface, fill_color, drum.rect)
+                pygame.draw.rect(self.surface, border_color, drum.rect, 5)
 
-            x = int(((palm[0] + 117.5) / 235) * 500)
-            y = int(((palm[2] + 73.5) / 147) * 500)
+            x = int(((palm[0] + 117.5) / 235) * self.screen_size[0])
+            y = int(((palm[2] + 73.5) / 147) * self.screen_size[1])
             cursor_loc = (x,y)
 
             print("cursor location: ",cursor_loc)
