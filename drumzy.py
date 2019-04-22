@@ -8,6 +8,7 @@ from leap_parser import SampleListener
 from load_sound import load_sound
 from visualize import init_screen
 import drum
+import speech_recognition as sr
 
 SCREEN_SIZE = (1000, 500)
 AREA_SIZE = (235, 147)
