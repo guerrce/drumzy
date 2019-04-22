@@ -16,6 +16,7 @@ class Drum():
         self.sound = sound
         self.triggered = False
         self.rect = rect
+        self.note = 60
 
     def in_area(self, palm_position):
         x = palm_position[0]
