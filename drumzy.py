@@ -17,6 +17,49 @@ MENU_SIZE = 100
 DRUM_COUNT = int(sys.argv[1])
 DRUM_LIST = []
 
+def get_sounds():
+    kick1 = load_sound("sound_clips/Kick1.wav")
+    snare1 = load_sound("sound_clips/Snare1.wav")
+    clap1 = load_sound("sound_clips/Clap1")
+    cowbell1 = load_sound("sound_clips/Cowbell")
+    crash1 = load_sound("sound_clips/Crash1")
+    #hhc1 = load_sound("sound_clips/HighHatC1")
+    hho1 = load_sound("sound_clips/HighHatO1")
+    th1 = load_sound("sound_clips/TomHigh1")
+    tl1 = load_sound("sound_clips/TomLow1")
+    #tm1 = load_sound("sound_clips/TomMid1")
+
+    return [kick1, snare1, clap1, cowbell1, crash1, hho1, th1, tl1]
+
+def create_drums(count):
+    if count not in [1,2,4,8]:
+        raise ValueError("Cannot have " + count + " drums in grid. Try 1, 2, 4, or 8 drums.")
+    #sound and 
+    sounds = get_sounds()
+    count_to_grid = {1: (1,1), 2: (1,2), 4: (2,2), 8: (2,4)}
+
+    #initialize spaces of areas in window
+    window_width = SCREEN_SIZE[0] - MENU_SIZE
+    window_height = SCREEN_SIZE[1]
+    leap_width = AREA_SIZE[0]
+    leap_depth = AREA_SIZE[1]
+
+    #determine spacing
+    (gridrows, gridcols) = count_to_grid[count]
+    rect_col_spacing = int(window_width/gridcols)
+    rect_row_spacing = int(window_height/gridrows)
+    area_col_spacing = int(leap_width/gridcols)
+    area_row_spacing = int(leap_height/gridrows)
+
+    #create drums
+    for i in range(count):
+        gridpos = (count%gridcols,int(count/gridcols)) #(col number, row number) of row to correspond with pygame x,y coords
+        rect = pygame.Rect((rect_col_spacing*gridpos[0],rect_row_spacing*gridpos[1]), (rect_col_spacing, rect_row_spacing))
+        area = ((area_col_spacing*gridpos[0],area_row_spacing*gridpos[1]), (area_col_spacing*(gridpos[0]+1),area_row_spacing*(gridpos[1]+1)))
+        d = drum.Drum(area, sound[i], rect)
+        DRUM_LIST.append(d)
+
+
 def main():
     # Note: this works only for two drums
     # Need to be adjusted once we can get user selected drum count
