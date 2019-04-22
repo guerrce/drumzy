@@ -9,6 +9,7 @@ DURATION = 1
 TRACK = 0
 CHANNEL = 0
 TIME = 0
+MIDI_FILENAME = "test_midi.mid"
 
 class Note():
     def __init__(self, pitch, start_time):
@@ -32,7 +33,7 @@ def main():
     while True:
         key = input()
         t = time() - t0
-        tt = int(math.floor(t / (BPM/60)))
+        tt = t / (BPM/60)
         print(tt)
 
         if key == "a":
@@ -48,8 +49,10 @@ def main():
         note.print_note()
         MyMIDI.addNote(TRACK, CHANNEL, note.pitch, TIME + note.start_time, DURATION, VOLUME)
 
-    with open("major-scale.mid", "wb") as output_file:
+    with open(MIDI_FILENAME, "wb") as output_file:
         MyMIDI.writeFile(output_file)
+
+
 
 if __name__ == '__main__':
     main()
