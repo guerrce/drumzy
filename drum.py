@@ -1,3 +1,4 @@
+from load_sound import load_sound
 
 class Drum():
     """
@@ -11,9 +12,10 @@ class Drum():
     param rect: pygame Rectangle for visualization (add this later)
     """
 
-    def __init__(self, area, sound, rect, note):
+    def __init__(self, area, soundfile, rect, note):
         self.area = area
-        self.sound = sound
+        self.soundfile = soundfile
+        self.sound = load_sound(soundfile)
         self.triggered = False
         self.rect = rect
         self.note = note

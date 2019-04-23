@@ -5,7 +5,6 @@ from LeapPython import Leap
 import pygame
 
 from leap_parser import SampleListener
-from load_sound import load_sound
 from visualize import init_screen
 import drum
 import speech_recognition as sr
@@ -18,16 +17,16 @@ DRUM_COUNT = int(sys.argv[1])
 DRUM_LIST = []
 
 def get_sounds():
-    kick1 = load_sound("sound_clips/Kick1.wav")
-    snare1 = load_sound("sound_clips/Snare1.wav")
-    clap1 = load_sound("sound_clips/Clap1.wav")
-    cowbell1 = load_sound("sound_clips/Cowbell.wav")
-    crash1 = load_sound("sound_clips/Crash1.wav")
-    #hhc1 = load_sound("sound_clips/HighHatC1.wav")
-    hho1 = load_sound("sound_clips/HighHatO1.wav")
-    th1 = load_sound("sound_clips/TomHigh1.wav")
-    tl1 = load_sound("sound_clips/TomLow1.wav")
-    #tm1 = load_sound("sound_clips/TomMid1.wav")
+    kick1 = "sound_clips/Kick1.wav"
+    snare1 = "sound_clips/Snare1.wav"
+    clap1 = "sound_clips/Clap1.wav"
+    cowbell1 = "sound_clips/Cowbell.wav"
+    crash1 = "sound_clips/Crash1.wav"
+    #hhc1 = "sound_clips/HighHatC1.wav"
+    hho1 = "sound_clips/HighHatO1.wav"
+    th1 = "sound_clips/TomHigh1.wav"
+    tl1 = "sound_clips/TomLow1.wav"
+    #tm1 = "sound_clips/TomMid1.wav"
 
     return [kick1, snare1, clap1, cowbell1, crash1, hho1, th1, tl1]
 
@@ -35,7 +34,7 @@ def create_drums(count):
     if count not in [1,2,4,8]:
         raise ValueError("Cannot have " + count + " drums in grid. Try 1, 2, 4, or 8 drums.")
     #sound and 
-    sounds = get_sounds()
+    soundfiles = get_sounds()
     notes  = []
     for i in range(8):
         notes.append(i+1)
@@ -67,7 +66,7 @@ def create_drums(count):
         topleft = (area_col_spacing*gridpos[0] - area_offset[0] , area_row_spacing*gridpos[1] - area_offset[1])
         botright = (area_col_spacing*(gridpos[0]+1) - area_offset[0] ,area_row_spacing*(gridpos[1]+1) - area_offset[1])
         area = (topleft, botright)
-        d = drum.Drum(area, sounds[i], rect, notes[i])
+        d = drum.Drum(area, soundfiles[i], rect, notes[i])
         DRUM_LIST.append(d)
 
 
