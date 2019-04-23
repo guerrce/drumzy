@@ -71,9 +71,11 @@ class SampleListener(Leap.Listener):
                 fill_color = UNTRIGGERED_DRUM_COLOR
                 if palm[1] < ACTIVATION_HEIGHT:
                     if drum.in_area(palm):
-                        drum.play()
+                        played = drum.play()
                         fill_color = TRIGGERED_DRUM_COLOR
-                        if self.recording:
+                        #print(drum.triggered)
+                        if self.recording and played:
+                            print((drum.soundfile,t))
                             self.notes.add_note(Note(drum.soundfile, t))
                     drum.trigger()
                 else:
