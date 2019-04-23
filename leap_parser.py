@@ -37,7 +37,7 @@ class SampleListener(Leap.Listener):
         for i in range(numHands):
             hand = hands[i]
             palm = hand.palm_position
-            print("Palm " + str(i+1) +  " position:", palm)
+            #print("Palm " + str(i+1) +  " position:", palm)
             border_color = (0,0,0)
             
             for drum in self.drums:
@@ -56,7 +56,7 @@ class SampleListener(Leap.Listener):
             y = int(((palm[2] + 73.5) / 147) * self.screen_size[1])
             cursor_loc = (x,y)
 
-            print("cursor location: ",cursor_loc)
+            #print("cursor location: ",cursor_loc)
             pygame.draw.circle(self.surface, (0,0,0), cursor_loc, 20)
 
 def main():
