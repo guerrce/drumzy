@@ -97,14 +97,18 @@ def main():
     def callback(recognizer, audio):
         # received audio data, now we'll recognize it using Google Speech Recognition
         try:
-            text = recognizer.recognize_google(audio)
+            text = recognizer.recognize_google(audio).lower()
             print(text)
-            if "start" in text:
+            if "start" in text or "spark" in text:
                 listener.start_recording(controller)
-            elif "stop" in text:
+            elif "stop" in text or "stock" in text:
                 listener.stop_recording(controller)
             elif "save" in text or "safe" in text :
                 listener.write_wav(controller)
+            elif "play" in text:
+                listener.play_wav(controller)
+            elif "loop in text":
+                listener.loop(controller)
         except sr.UnknownValueError:
             pass
         except sr.RequestError as e:

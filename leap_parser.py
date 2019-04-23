@@ -13,6 +13,7 @@ TRIGGERED_DRUM_COLOR = (255, 0, 0)       # red
 BORDER_COLOR = (0,0,0)                   # black
 BORDER_SIZE = 5
 MIDI_FILE = "test_midi.mid"
+WAV_FILE = "output.wav"
 
 pygame.font.init()
 #print(pygame.font.get_fonts())
@@ -59,7 +60,14 @@ class SampleListener(Leap.Listener):
 
     def write_wav(self, controller):
         print("Saving...")
-        self.notes.write_wav()
+        self.notes.write_wav(WAV_FILE)
+
+    def play_wav(self, controller):
+        load_sound(WAV_FILE).play()
+
+    def loop(self, controller):
+        self.play_wav(controller)
+        self.start_recording(controller)
 
     def on_frame(self, controller):
         # Get the most recent frame and report some basic information
@@ -78,10 +86,11 @@ class SampleListener(Leap.Listener):
                 fill_color = UNTRIGGERED_DRUM_COLOR
                 if palm[1] < ACTIVATION_HEIGHT:
                     if drum.in_area(palm):
-                        drum.play()
+                        played = drum.play()
                         fill_color = TRIGGERED_DRUM_COLOR
-                        # if recording, add note to notes
-                        if self.recording:
+                        #print(drum.triggered)
+                        if self.recording and played:
+                            print((drum.soundfile,t))
                             self.notes.add_note(Note(drum.soundfile, t))
                     drum.trigger()
                 else:

@@ -33,9 +33,12 @@ class Drum():
             self.triggered = True
 
     def play(self):
+        played = False
         if not self.triggered:
             self.sound.play()
+            played = True
         self.trigger()
+        return played
 
     def untrigger(self):
         self.triggered = False
