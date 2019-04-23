@@ -28,6 +28,7 @@ class SampleListener(Leap.Listener):
         self.recording = False
         self.notes = NoteList()
         self.t0 = time()
+        self.countin = load_sound("sound_clips/CountIn1.wav")
         #FluidSynth('drumzy_font.sf2')
     
 
@@ -45,15 +46,30 @@ class SampleListener(Leap.Listener):
         print("Exited")
 
     def start_recording(self, controller):
-        print("start recording")
+        if not recording:
 
-        self.t0 = time()
-        self.recording = True
+            print("start recording")
+            self.countin.play()
+            sleep(0.5)
+            self.countin.play()
+            sleep(0.5)
+            self.countin.play()
+            sleep(0.5)
+            self.countin.play()
+            sleep(0.5)
+
+            self.t0 = time()
+            self.recording = True
+        else:
+            print("already recording!")
 
     def stop_recording(self, controller):
-        print("stop recording")
-        self.recording = False
-        self.notes.update_midi()
+        if recording:
+            print("stop recording")
+            self.recording = False
+            self.notes.update_midi()
+        else:
+            print("Nothing to stop")
 
     def play_recording(self, controller):
         print("playing")

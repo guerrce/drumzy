@@ -31,14 +31,15 @@ def get_sounds():
     return [kick1, snare1, clap1, cowbell1, crash1, hho1, th1, tl1]
 
 def create_drums(count):
-    if count not in [1,2,4,8]:
-        raise ValueError("Cannot have " + count + " drums in grid. Try 1, 2, 4, or 8 drums.")
     #sound and 
     soundfiles = get_sounds()
     notes  = []
     for i in range(8):
         notes.append(i+1)
-    count_to_grid = {1: (1,1), 2: (1,2), 4: (2,2), 8: (2,4)}
+    count_to_grid = {1: (1,1), 2: (1,2), 4: (2,2), 6: (2,3), 8: (2,4)}
+
+    if count not in count_to_grid.keys():
+        raise ValueError("Cannot have " + count + " drums in grid. Try 1, 2, 4, or 8 drums.")
 
     #initialize spaces of areas in window
     window_width = SCREEN_SIZE[0] - MENU_SIZE

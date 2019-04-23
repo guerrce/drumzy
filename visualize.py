@@ -15,7 +15,7 @@ def init_screen(size):
 	pygame.display.set_caption('Drumzy')
 	background = pygame.Surface(screen.get_size())
 	background = background.convert()
-	background.fill((250, 250, 250))
+	background.fill((0, 0, 0))
 
 	screen.blit(background, (0, 0))
 	return screen
