@@ -2,7 +2,7 @@ import sys
 from LeapPython import Leap
 import pygame
 from load_sound import load_sound
-from audio_processor import Note, NoteList
+from wav_processor import Note, NoteList
 from time import time
 
 ACTIVATION_HEIGHT = 200
@@ -42,16 +42,18 @@ class SampleListener(Leap.Listener):
         print("Exited")
 
     def start_recording(self, controller):
-        print("woo")
+        print("Recording Started")
         self.t0 = time()
         self.recording = True
 
     def stop_recording(self, controller):
+        print("Recording Stopped")
         self.recording = False
-        self.notes.update_midi()
+        self.notes.update_wav()
 
-    def write_midi(self, controller):
-        notes.write_midi()
+    def write_wav(self, controller):
+        print("Saving...")
+        self.notes.write_wav()
 
     def on_frame(self, controller):
         # Get the most recent frame and report some basic information
@@ -72,7 +74,7 @@ class SampleListener(Leap.Listener):
                         drum.play()
                         fill_color = TRIGGERED_DRUM_COLOR
                         if self.recording:
-                            self.notes.add_note(Note(drum.note_val(), t))
+                            self.notes.add_note(Note(drum.soundfile, t))
                     drum.trigger()
                 else:
                     drum.untrigger()

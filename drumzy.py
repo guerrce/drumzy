@@ -97,10 +97,13 @@ def main():
         # received audio data, now we'll recognize it using Google Speech Recognition
         try:
             text = recognizer.recognize_google(audio)
+            print(text)
             if "start" in text:
                 listener.start_recording(controller)
             elif "stop" in text:
-                listener.start_recording(controller)
+                listener.stop_recording(controller)
+            elif "save" in text or "safe" in text :
+                listener.write_wav(controller)
         except sr.UnknownValueError:
             pass
         except sr.RequestError as e:
