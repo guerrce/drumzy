@@ -82,7 +82,7 @@ def main():
 
     # Create the listener and controller
     recording = False
-    listener = SampleListener(DRUM_LIST,surface, SCREEN_SIZE, recording)
+    listener = SampleListener(DRUM_LIST,surface, SCREEN_SIZE)
     controller = Leap.Controller()
 
     # Have the listener receive events from the controller

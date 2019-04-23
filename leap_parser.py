@@ -20,7 +20,7 @@ class SampleListener(Leap.Listener):
         self.triggered = False
         self.screen_size = screen_size
         self.recording = False
-        self.notes = NotesList()
+        self.notes = NoteList()
         self.t0 = time()
     
 
