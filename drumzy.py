@@ -20,7 +20,7 @@ def get_sounds():
     kick1 = "sound_clips/Kick1.wav"
     snare1 = "sound_clips/Snare1.wav"
     clap1 = "sound_clips/Clap1.wav"
-    cowbell1 = "sound_clips/Cowbell.wav"
+    cowbell1 = "sound_clips/Cowbell1.wav"
     crash1 = "sound_clips/Crash1.wav"
     #hhc1 = "sound_clips/HighHatC1.wav"
     hho1 = "sound_clips/HighHatO1.wav"
@@ -53,6 +53,7 @@ def create_drums(count):
     area_col_spacing = int(leap_width/gridcols)
     area_row_spacing = int(leap_depth/gridrows)
 
+
     #create drums
     area_offset = [x/2 for x in AREA_SIZE]
     for i in range(count):
@@ -62,7 +63,7 @@ def create_drums(count):
         topleft = (rect_col_spacing*gridpos[0],rect_row_spacing*gridpos[1])
         size = (rect_col_spacing, rect_row_spacing)
         rect = pygame.Rect(topleft, size)
-
+        
         topleft = (area_col_spacing*gridpos[0] - area_offset[0] , area_row_spacing*gridpos[1] - area_offset[1])
         botright = (area_col_spacing*(gridpos[0]+1) - area_offset[0] ,area_row_spacing*(gridpos[1]+1) - area_offset[1])
         area = (topleft, botright)
@@ -73,11 +74,11 @@ def create_drums(count):
 def main():
     # Note: this works only for two drums
     # Need to be adjusted once we can get user selected drum count
-    pygame.mixer.init()
-    create_drums(DRUM_COUNT)   
-
+    pygame.mixer.init()    
     #Initialize visuals
     surface = init_screen(SCREEN_SIZE)
+
+    create_drums(DRUM_COUNT)   
 
     # Create the listener and controller
     recording = False
