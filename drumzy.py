@@ -107,7 +107,7 @@ def main():
                 listener.write_wav(controller)
             elif "play" in text:
                 listener.play_wav(controller)
-            elif "loop in text":
+            elif "loop" in text or "loup" in text:
                 listener.loop(controller)
         except sr.UnknownValueError:
             pass

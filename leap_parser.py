@@ -2,6 +2,7 @@ import sys
 from LeapPython import Leap
 import pygame
 from load_sound import load_sound
+import threading
 
 from wav_processor import Note, NoteList
 from time import time, sleep
@@ -57,6 +58,7 @@ class SampleListener(Leap.Listener):
         self.recording = False
         if stop_loop:
             self.looping = False
+            print("looping stopped")
         self.notes.update_wav()
 
     def write_wav(self, controller):
@@ -67,16 +69,24 @@ class SampleListener(Leap.Listener):
     def play_wav(self, controller):
         measure = load_sound(WAV_FILE)
         measure.play()
+
         return measure.get_length()
 
     def loop(self, controller):
         self.looping = True
-        while self.looping:
-            wait_time = self.play_wav(controller)
-            self.start_recording(controller)
-            sleep(wait_time)
-            self.stop_recording(controller, stop_loop=False)
-            self.write_wav(controller)
+        
+        def loop_thread():
+            wait_time = 0
+            local_start = time()
+            while self.looping:
+                if not self.recording:
+                    self.start_recording(controller)
+                    wait_time = self.play_wav(controller)
+                if time() - local_start > wait_time:
+                    local_start = time()
+                    self.stop_recording(controller, stop_loop=False)
+                    self.write_wav(controller)
+        threading.Thread(target = loop_thread).start()
 
     def on_frame(self, controller):
         # Get the most recent frame and report some basic information
