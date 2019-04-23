@@ -22,6 +22,7 @@ class NoteList():
     def __init__(self):
         self.notes = []
         self.sound = AudioSegment.empty()
+        #might need to modify this class to take in an 'oldrecording' parameter in the future and overlay the old recording with a new recording in update_wav
 
     def add_note(self, note):
         self.notes.append(note)
