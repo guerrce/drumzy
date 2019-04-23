@@ -11,12 +11,12 @@ class Drum():
     param rect: pygame Rectangle for visualization (add this later)
     """
 
-    def __init__(self, area, sound, rect):
+    def __init__(self, area, sound, rect, note):
         self.area = area
         self.sound = sound
         self.triggered = False
         self.rect = rect
-        self.note = 60
+        self.note = note
 
     def in_area(self, palm_position):
         x = palm_position[0]
@@ -25,7 +25,6 @@ class Drum():
         if (self.area[0][0] <= x and x < self.area[1][0] and
             self.area[0][1] <= y and y < self.area[1][1]):
             return True
-
 
     def trigger(self):
         if not self.triggered:
@@ -38,3 +37,6 @@ class Drum():
 
     def untrigger(self):
         self.triggered = False
+
+    def note_val(self):
+        return self.note

@@ -14,7 +14,7 @@ MIDI_FILENAME = "test_midi.mid"
 class Note():
     def __init__(self, pitch, start_time):
         self.pitch = pitch
-        self.start_time = start_time
+        self.start_time = start_time / (BPM/60)
 
     def print_note(self):
         print("Pitch: %s, Start: %s" % (self.pitch, self.start_time))
@@ -58,7 +58,6 @@ def main():
     while True:
         key = input()
         t = time() - t0
-        t = t / (BPM/60)
         print(t)
 
         if key == "s":    # start

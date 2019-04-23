@@ -36,6 +36,9 @@ def create_drums(count):
         raise ValueError("Cannot have " + count + " drums in grid. Try 1, 2, 4, or 8 drums.")
     #sound and 
     sounds = get_sounds()
+    notes  = []
+    for i in range(8):
+        notes.append(i+1)
     count_to_grid = {1: (1,1), 2: (1,2), 4: (2,2), 8: (2,4)}
 
     #initialize spaces of areas in window
@@ -64,7 +67,7 @@ def create_drums(count):
         topleft = (area_col_spacing*gridpos[0] - area_offset[0] , area_row_spacing*gridpos[1] - area_offset[1])
         botright = (area_col_spacing*(gridpos[0]+1) - area_offset[0] ,area_row_spacing*(gridpos[1]+1) - area_offset[1])
         area = (topleft, botright)
-        d = drum.Drum(area, sounds[i], rect)
+        d = drum.Drum(area, sounds[i], rect, notes[i])
         DRUM_LIST.append(d)
 
 
@@ -78,7 +81,8 @@ def main():
     surface = init_screen(SCREEN_SIZE)
 
     # Create the listener and controller
-    listener = SampleListener(DRUM_LIST,surface, SCREEN_SIZE)
+    recording = False
+    listener = SampleListener(DRUM_LIST,surface, SCREEN_SIZE, recording)
     controller = Leap.Controller()
 
     # Have the listener receive events from the controller
