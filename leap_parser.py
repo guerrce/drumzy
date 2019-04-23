@@ -2,7 +2,7 @@ import sys
 from LeapPython import Leap
 import pygame
 from load_sound import load_sound
-from audio_processor import Note, NotesList
+from audio_processor import Note, NoteList
 from time import time
 
 ACTIVATION_HEIGHT = 200
@@ -20,7 +20,7 @@ class SampleListener(Leap.Listener):
         self.triggered = False
         self.screen_size = screen_size
         self.recording = False
-        self.notes = NotesList()
+        self.notes = NoteList()
         self.t0 = time()
     
 
@@ -38,6 +38,7 @@ class SampleListener(Leap.Listener):
         print("Exited")
 
     def start_recording(self, controller):
+        print("woo")
         self.t0 = time()
         self.recording = True
 
