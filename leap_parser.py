@@ -4,7 +4,7 @@ import pygame
 from load_sound import load_sound
 
 from wav_processor import Note, NoteList
-from time import time
+from time import time, sleep
 
 
 ACTIVATION_HEIGHT = 200
@@ -28,11 +28,10 @@ class SampleListener(Leap.Listener):
         self.triggered = False
         self.screen_size = screen_size
         self.recording = False
+        self.looping = False
         self.notes = NoteList()
         self.t0 = time()
         self.countin = load_sound("sound_clips/CountIn1.wav")
-        #FluidSynth('drumzy_font.sf2')
-    
 
     def on_init(self, controller):
         print("Initialized")
@@ -53,21 +52,31 @@ class SampleListener(Leap.Listener):
         self.t0 = time()
         self.recording = True
 
-    def stop_recording(self, controller):
+    def stop_recording(self, controller, stop_loop = True):
         print("Recording Stopped")
         self.recording = False
+        if stop_loop:
+            self.looping = False
         self.notes.update_wav()
 
     def write_wav(self, controller):
         print("Saving...")
         self.notes.write_wav(WAV_FILE)
+        print("Done Saving")
 
     def play_wav(self, controller):
-        load_sound(WAV_FILE).play()
+        measure = load_sound(WAV_FILE)
+        measure.play()
+        return measure.get_length()
 
     def loop(self, controller):
-        self.play_wav(controller)
-        self.start_recording(controller)
+        self.looping = True
+        while self.looping:
+            wait_time = self.play_wav(controller)
+            self.start_recording(controller)
+            sleep(wait_time)
+            self.stop_recording(controller, stop_loop=False)
+            self.write_wav(controller)
 
     def on_frame(self, controller):
         # Get the most recent frame and report some basic information
