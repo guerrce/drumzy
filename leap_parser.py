@@ -66,6 +66,7 @@ class SampleListener(Leap.Listener):
                     if drum.in_area(palm):
                         drum.play()
                         fill_color = TRIGGERED_DRUM_COLOR
+                        # if recording, add note to notes
                         if self.recording:
                             self.notes.add_note(Note(drum.note_val(), t))
                     drum.trigger()
