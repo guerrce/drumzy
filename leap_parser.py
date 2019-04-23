@@ -2,7 +2,7 @@ import sys
 from LeapPython import Leap
 import pygame
 from load_sound import load_sound
-from audio_processor import Note, NotesList
+from audio_processor import Note, NoteList
 from time import time
 
 ACTIVATION_HEIGHT = 200
