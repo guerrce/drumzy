@@ -2,9 +2,10 @@ import sys
 from LeapPython import Leap
 import pygame
 from load_sound import load_sound
-from audio_processor import Note, NoteList
-from time import time, sleep
-#from midi2audio import FluidSynth
+
+from wav_processor import Note, NoteList
+from time import time
+
 
 ACTIVATION_HEIGHT = 200
 UNTRIGGERED_DRUM_COLOR = (175, 175, 175) # gray
@@ -46,38 +47,19 @@ class SampleListener(Leap.Listener):
         print("Exited")
 
     def start_recording(self, controller):
-        if not recording:
 
-            print("start recording")
-            self.countin.play()
-            sleep(0.5)
-            self.countin.play()
-            sleep(0.5)
-            self.countin.play()
-            sleep(0.5)
-            self.countin.play()
-            sleep(0.5)
-
-            self.t0 = time()
-            self.recording = True
-        else:
-            print("already recording!")
+        print("Recording Started")
+        self.t0 = time()
+        self.recording = True
 
     def stop_recording(self, controller):
-        if recording:
-            print("stop recording")
-            self.recording = False
-            self.notes.update_midi()
-        else:
-            print("Nothing to stop")
+        print("Recording Stopped")
+        self.recording = False
+        self.notes.update_wav()
 
-    def play_recording(self, controller):
-        print("playing")
-        #FluidSynth().play_midi(MIDI_FILE)
-
-    def write_midi(self, controller):
-        self.notes.write_midi()
-        print("writing")
+    def write_wav(self, controller):
+        print("Saving...")
+        self.notes.write_wav()
 
     def on_frame(self, controller):
         # Get the most recent frame and report some basic information
@@ -100,7 +82,7 @@ class SampleListener(Leap.Listener):
                         fill_color = TRIGGERED_DRUM_COLOR
                         # if recording, add note to notes
                         if self.recording:
-                            self.notes.add_note(Note(drum.note_val(), t))
+                            self.notes.add_note(Note(drum.soundfile, t))
                     drum.trigger()
                 else:
                     drum.untrigger()

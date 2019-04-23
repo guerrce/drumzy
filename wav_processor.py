@@ -9,12 +9,14 @@ DURATION = 1
 TRACK = 0
 CHANNEL = 0
 TIME = 0
-MIDI_FILENAME = "test_midi.mid"
 
 class Note():
     def __init__(self, wavfile, start_time):
         self.wavfile = wavfile
-        self.start_time = start_time
+        self.start_time = start_time #seconds
+
+    def print_note(self):
+        return (self.wavfile,self.start_time)
 
 class NoteList():
     def __init__(self):
@@ -24,15 +26,20 @@ class NoteList():
     def add_note(self, note):
         self.notes.append(note)
 
-    def update_midi(self):
+    def update_wav(self):
         newsound = AudioSegment.empty()
-        for note in notes:
-            newsound = AudioSegment.from_wav()
+        for note in self.notes:
+            nextsound = AudioSegment.from_wav(note.wavfile)
+            nextend = len(nextsound) + 1000*note.start_time #Audiosegment is in milliseconds
+            overallend = len(newsound)
+            silence = AudioSegment.silent(duration = max(nextend, overallend))
+            witholdsound = silence.overlay(newsound)
+            newsound = witholdsound.overlay(nextsound, position = note.start_time*1000)
+        self.sound = newsound
 
-    def write_midi(self):
-        self.update_midi()
-        with open(MIDI_FILENAME, "wb") as output_file:
-            self.midi_file.writeFile(output_file)
+    def write_wav(self, filename = "output.wav"):
+        self.update_wav()
+        self.sound.export(filename, format = 'wav')   
 
     def print_list(self):
         for note in self.notes:
@@ -46,11 +53,10 @@ def main():
     recording = False
     counter = 0
 
-    key_map = {"a" : 60, 
-               "b" : 61, 
-               "c" : 62, 
-               "d" : 63, 
-               "e" : 64}
+    key_map = {"a" : "sound_clips/Kick1.wav", 
+               "b" : "sound_clips/Snare1.wav", 
+               "c" : "sound_clips/Clap1.wav", 
+               "d" : "sound_clips/Cowbell1.wav"}
 
     while True:
         key = input()
@@ -68,7 +74,7 @@ def main():
             if recording:
                 print("stopped recording")
                 recording = False
-                notes.update_midi()
+                notes.update_wav()
             else:
                 print("not recording")
         elif key == "q":  # quit
@@ -76,11 +82,9 @@ def main():
         else:
             if key in key_map.keys():
                 notes.add_note(Note(key_map[key], t))
-            else:
-                notes.add_note(Note(65, t))
 
     notes.print_list()
-    notes.write_midi()
+    notes.write_wav()
     
 
 
