@@ -100,7 +100,11 @@ def main():
             if "start" in text:
                 listener.start_recording(controller)
             elif "stop" in text:
-                listener.start_recording(controller)
+                listener.stop_recording(controller)
+            elif "write" in text or "right" in text:
+                listener.write_midi(controller)
+            elif "play" in text:
+                listener.play_recording(controller)
         except sr.UnknownValueError:
             pass
         except sr.RequestError as e:
@@ -115,7 +119,6 @@ def main():
 
     running = True
     while running:
-        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -123,6 +126,8 @@ def main():
                 running = False
                 break
 
+            else:
+                pass
         pygame.display.flip()
 
     # Keep this process running until Enter is pressed

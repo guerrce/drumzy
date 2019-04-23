@@ -3,13 +3,15 @@ from LeapPython import Leap
 import pygame
 from load_sound import load_sound
 from audio_processor import Note, NoteList
-from time import time
+from time import time, sleep
+#from midi2audio import FluidSynth
 
 ACTIVATION_HEIGHT = 200
 UNTRIGGERED_DRUM_COLOR = (175, 175, 175) # gray
 TRIGGERED_DRUM_COLOR = (255, 0, 0)       # red
 BORDER_COLOR = (0,0,0)                   # black
 BORDER_SIZE = 5
+MIDI_FILE = "test_midi.mid"
 
 class SampleListener(Leap.Listener):
     
@@ -22,6 +24,7 @@ class SampleListener(Leap.Listener):
         self.recording = False
         self.notes = NoteList()
         self.t0 = time()
+        #FluidSynth('drumzy_font.sf2')
     
 
     def on_init(self, controller):
@@ -38,19 +41,27 @@ class SampleListener(Leap.Listener):
         print("Exited")
 
     def start_recording(self, controller):
-        print("woo")
+        print("start recording")
+
         self.t0 = time()
         self.recording = True
 
     def stop_recording(self, controller):
+        print("stop recording")
         self.recording = False
         self.notes.update_midi()
 
+    def play_recording(self, controller):
+        print("playing")
+        #FluidSynth().play_midi(MIDI_FILE)
+
     def write_midi(self, controller):
-        notes.write_midi()
+        self.notes.write_midi()
+        print("writing")
 
     def on_frame(self, controller):
         # Get the most recent frame and report some basic information
+
         frame = controller.frame()
         hands = frame.hands
         numHands = len(hands)
