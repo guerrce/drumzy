@@ -38,6 +38,7 @@ class SampleListener(Leap.Listener):
         print("Exited")
 
     def start_recording(self, controller):
+        print("woo")
         self.t0 = time()
         self.recording = True
 
