@@ -11,6 +11,10 @@ TRIGGERED_DRUM_COLOR = (255, 0, 0)       # red
 BORDER_COLOR = (0,0,0)                   # black
 BORDER_SIZE = 5
 
+pygame.font.init()
+#print(pygame.font.get_fonts())
+myfont = pygame.font.SysFont("cambria", 35)
+
 class SampleListener(Leap.Listener):
     
     def __init__(self, drums, surface, screen_size):
@@ -72,8 +76,15 @@ class SampleListener(Leap.Listener):
                     drum.trigger()
                 else:
                     drum.untrigger()
-                pygame.draw.rect(self.surface, fill_color, drum.rect)
-                pygame.draw.rect(self.surface, BORDER_COLOR, drum.rect, BORDER_SIZE)
+
+                name = drum.soundfile[12:-5]
+                label = myfont.render(name, 1, (0,255,0))
+
+                rect1 = pygame.draw.rect(self.surface, fill_color, drum.rect)
+                self.surface.blit(label, rect1)
+
+                rect2 = pygame.draw.rect(self.surface, BORDER_COLOR, drum.rect, 5)
+                self.surface.blit(label, rect2)
 
             x = int(((palm[0] + 117.5) / 235) * self.screen_size[0])
             y = int(((palm[2] + 73.5) / 147) * self.screen_size[1])
