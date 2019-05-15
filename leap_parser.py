@@ -11,13 +11,13 @@ from time import time, sleep
 
 
 ACTIVATION_HEIGHT = 200
-UNTRIGGERED_DRUM_COLOR = (0, 175, 175) # gray
+UNTRIGGERED_DRUM_COLOR = (0, 175, 175)   # aqua
 TRIGGERED_DRUM_COLOR = (255, 0, 0)       # red
 BORDER_COLOR = (0,0,0)                   # black
 BORDER_SIZE = 5
 MIDI_FILE = "test_midi.mid"
 WAV_FILE = "output.wav"
-METRONOME_BPM = 100
+METRONOME_BPM = 60
 
 pygame.font.init()
 #print(pygame.font.get_fonts())
@@ -39,7 +39,7 @@ class SampleListener(Leap.Listener):
         self.countin = load_sound("sound_clips/CountIn1.wav")
         self.metronome_started = True
         self.metronome_t0 = time()
-        self.metronome_rect = pygame.Rect(903, 30, 94, 460)
+        self.metronome_rect = pygame.Rect(903, 30, 294, 217.5)
 
 
         ins_string = ("Commands: \n"
@@ -51,7 +51,7 @@ class SampleListener(Leap.Listener):
                      "Loop: Play the current recording in a loop, and record over that")
         print(ins_string)
         box = pygame.Rect((self.screen_size[0]-290, 5), (280, 400))
-        multiLineSurface(ins_string, otherfont, box, (255,255,255), self.surface, (self.screen_size[0] - 290, 5))
+        multiLineSurface(ins_string, otherfont, box, (255,255,255), self.surface, (self.screen_size[0] - 290, 270))
 
     def on_init(self, controller):
         print("Initialized")
@@ -126,9 +126,9 @@ class SampleListener(Leap.Listener):
         if self.metronome_started:
             t = time()
             if t % (60.0/METRONOME_BPM) < 0.1:
-                pygame.draw.rect(self.surface, TRIGGERED_DRUM_COLOR, self.metronome_rect)
+                pygame.draw.rect(self.surface, (0, 255, 0), self.metronome_rect)
             else:
-                pygame.draw.rect(self.surface, (0,0,0), self.metronome_rect)
+                pygame.draw.rect(self.surface, (128,128,128), self.metronome_rect)
         
         # Drum and hand stuff
         for i in range(numHands):
