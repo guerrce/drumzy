@@ -9,9 +9,9 @@ from visualize import init_screen
 import drum
 import speech_recognition as sr
 
-SCREEN_SIZE = (1200, 500)
+SCREEN_SIZE = (1350, 600)
 AREA_SIZE = (235, 147)
-MENU_SIZE = 300
+MENU_SIZE = 450
 
 DRUM_COUNT = int(sys.argv[1])
 DRUM_LIST = []
