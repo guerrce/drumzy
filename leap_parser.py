@@ -4,6 +4,7 @@ import pygame
 from load_sound import load_sound
 import threading
 from visualize import init_screen
+from textbox import multiLineSurface
 
 from wav_processor import Note, NoteList
 from time import time, sleep
@@ -20,6 +21,7 @@ WAV_FILE = "output.wav"
 pygame.font.init()
 #print(pygame.font.get_fonts())
 myfont = pygame.font.SysFont("cambria", 35)
+otherfont = pygame.font.SysFont("arial", 18)
 
 class SampleListener(Leap.Listener):
     
@@ -35,16 +37,16 @@ class SampleListener(Leap.Listener):
         self.t0 = time()
         self.countin = load_sound("sound_clips/CountIn1.wav")
 
-        #Tried to blit images at start but they got lost in background :()
-        # for drum in self.drums:
-        #     name = drum.soundfile[12:-5]
-
-        #     image = pygame.image.load("./images/" + name + ".jpg")
-        #     #print(tuple(int(0.5*x) for x in drum.rect.size))
-        #     image = pygame.transform.scale(image, tuple(int(0.5*x) for x in drum.rect.size))
-        #     pic_rect = image.get_rect()
-        #     pic_rect.center = drum.rect.center
-        #     self.surface.blit(image, pic_rect)
+        ins_string = ("Commands: \n"
+                     "Start: Begin recording of initial sound" + "\n"
+                     "Stop: Stop recording of sound, either after start or stop" + "\n"
+                     "Save: Save output to WAV file" + "\n"
+                     "Play: Play the current WAV file" + "\n"
+                     "     -(Save before using this command)" + "\n"
+                     "Loop: Play the current recording in a loop, and record over that")
+        print(ins_string)
+        box = pygame.Rect((self.screen_size[0]-290, 5), (280, 400))
+        multiLineSurface(ins_string, otherfont, box, (255,255,255), self.surface, (self.screen_size[0] - 290, 5))
 
     def on_init(self, controller):
         print("Initialized")
