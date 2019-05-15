@@ -91,7 +91,7 @@ def main():
 
     #Speech Recognizer
     r = sr.Recognizer()
-    r.pause_threshold = 0.6
+    r.pause_threshold = 0.5
     m = sr.Microphone(sample_rate = 16000)
 
     def callback(recognizer, audio):
@@ -116,6 +116,8 @@ def main():
 
     with m as source:
         r.adjust_for_ambient_noise(source)  # we only need to calibrate once, before we start listening
+    r.energy_threshold = 350
+    r.dynamic_energy_threshold = False
 
     # start listening in the background (note that we don't have to do this inside a `with` statement)
     stop_listening = r.listen_in_background(m, callback)

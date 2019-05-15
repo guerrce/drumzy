@@ -1,4 +1,5 @@
 import sys
+import os
 from LeapPython import Leap
 import pygame
 from load_sound import load_sound
@@ -18,6 +19,7 @@ BORDER_SIZE = 5
 MIDI_FILE = "test_midi.mid"
 WAV_FILE = "output.wav"
 METRONOME_BPM = 60
+TEMP_FILE = "temp_42069ayyy.mid"
 
 pygame.font.init()
 #print(pygame.font.get_fonts())
@@ -47,7 +49,6 @@ class SampleListener(Leap.Listener):
                      "Stop: Stop recording of sound, either after start or stop" + "\n"
                      "Save: Save output to WAV file" + "\n"
                      "Play: Play the current WAV file" + "\n"
-                     "     -(Save before using this command)" + "\n"
                      "Loop: Play the current recording in a loop, and record over that")
         print(ins_string)
         box = pygame.Rect((self.screen_size[0]-290, 5), (280, 400))
@@ -94,11 +95,12 @@ class SampleListener(Leap.Listener):
         print("Done Saving")
 
     def play_wav(self, controller):
-        measure = load_sound(WAV_FILE)
+        self.notes.write_wav(TEMP_FILE)
+        measure = load_sound(TEMP_FILE)
         measure.play()
 
+        os.remove(TEMP_FILE)
         return measure.get_length()
-
     def loop(self, controller):
         self.looping = True
         
