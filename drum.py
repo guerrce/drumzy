@@ -1,4 +1,5 @@
 from load_sound import load_sound
+import pygame
 
 class Drum():
     """
@@ -19,6 +20,8 @@ class Drum():
         self.triggered = False
         self.rect = rect
         self.note = note
+        image = pygame.image.load("./images/" + self.soundfile[12:-5] + ".jpg")
+        self.image = pygame.transform.scale(image, tuple(int(0.5*x) for x in self.rect.size))
 
     def in_area(self, palm_position):
         x = palm_position[0]

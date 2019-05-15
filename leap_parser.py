@@ -138,9 +138,9 @@ class SampleListener(Leap.Listener):
 
                 name = drum.soundfile[12:-5]
 
-                image = pygame.image.load("./images/" + name + ".jpg")
+                #image = pygame.image.load("./images/" + name + ".jpg")
                 #print(tuple(int(0.5*x) for x in drum.rect.size))
-                image = pygame.transform.scale(image, tuple(int(0.5*x) for x in drum.rect.size))
+                image = drum.image
                 pic_rect = image.get_rect()
                 pic_rect.center = drum.rect.center
                 self.surface.blit(image, pic_rect)
