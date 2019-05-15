@@ -3,6 +3,7 @@ from LeapPython import Leap
 import pygame
 from load_sound import load_sound
 import threading
+from visualize import init_screen
 
 from wav_processor import Note, NoteList
 from time import time, sleep
@@ -33,6 +34,17 @@ class SampleListener(Leap.Listener):
         self.notes = NoteList()
         self.t0 = time()
         self.countin = load_sound("sound_clips/CountIn1.wav")
+
+        #Tried to blit images at start but they got lost in background :()
+        # for drum in self.drums:
+        #     name = drum.soundfile[12:-5]
+
+        #     image = pygame.image.load("./images/" + name + ".jpg")
+        #     #print(tuple(int(0.5*x) for x in drum.rect.size))
+        #     image = pygame.transform.scale(image, tuple(int(0.5*x) for x in drum.rect.size))
+        #     pic_rect = image.get_rect()
+        #     pic_rect.center = drum.rect.center
+        #     self.surface.blit(image, pic_rect)
 
     def on_init(self, controller):
         print("Initialized")
@@ -124,13 +136,23 @@ class SampleListener(Leap.Listener):
                 rect2 = pygame.draw.rect(self.surface, BORDER_COLOR, drum.rect, 5)
                 self.surface.blit(label, rect2)
 
+                name = drum.soundfile[12:-5]
+
+                image = pygame.image.load("./images/" + name + ".jpg")
+                #print(tuple(int(0.5*x) for x in drum.rect.size))
+                image = pygame.transform.scale(image, tuple(int(0.5*x) for x in drum.rect.size))
+                pic_rect = image.get_rect()
+                pic_rect.center = drum.rect.center
+                self.surface.blit(image, pic_rect)
+
+
+
             x = int(((palm[0] + 117.5) / 235) * self.screen_size[0])
             y = int(((palm[2] + 73.5) / 147) * self.screen_size[1])
             cursor_loc = (x,y)
 
             #print("cursor location: ",cursor_loc)
             pygame.draw.circle(self.surface, (0,0,0), cursor_loc, 20)
-
 def main():
     return
 
