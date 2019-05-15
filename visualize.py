@@ -16,6 +16,9 @@ def init_screen(size):
 	background = pygame.Surface(screen.get_size())
 	background = background.convert()
 	background.fill((0, 0, 0))
-
+	myfont = pygame.font.SysFont("cambria", 25)
+	metronome_text = myfont.render("Metronome", 1, (255,255,255))
 	screen.blit(background, (0, 0))
+	screen.blit(metronome_text, (903, 10))
+
 	return screen

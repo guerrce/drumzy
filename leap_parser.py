@@ -17,6 +17,7 @@ BORDER_COLOR = (0,0,0)                   # black
 BORDER_SIZE = 5
 MIDI_FILE = "test_midi.mid"
 WAV_FILE = "output.wav"
+METRONOME_BPM = 100
 
 pygame.font.init()
 #print(pygame.font.get_fonts())
@@ -36,6 +37,10 @@ class SampleListener(Leap.Listener):
         self.notes = NoteList()
         self.t0 = time()
         self.countin = load_sound("sound_clips/CountIn1.wav")
+        self.metronome_started = True
+        self.metronome_t0 = time()
+        self.metronome_rect = pygame.Rect(903, 30, 94, 460)
+
 
         ins_string = ("Commands: \n"
                      "Start: Begin recording of initial sound" + "\n"
@@ -75,6 +80,14 @@ class SampleListener(Leap.Listener):
             print("looping stopped")
         self.notes.update_wav()
 
+    def start_metronome(self, controller):
+        self.metronome_t0 = time()
+        self.metronome_started = True
+
+
+    def stop_metronome(self,controller):
+        self.metronome_started = False
+
     def write_wav(self, controller):
         print("Saving...")
         self.notes.write_wav(WAV_FILE)
@@ -108,7 +121,16 @@ class SampleListener(Leap.Listener):
         frame = controller.frame()
         hands = frame.hands
         numHands = len(hands)
+
+        #metronome stuff
+        if self.metronome_started:
+            t = time()
+            if t % (60.0/METRONOME_BPM) < 0.1:
+                pygame.draw.rect(self.surface, TRIGGERED_DRUM_COLOR, self.metronome_rect)
+            else:
+                pygame.draw.rect(self.surface, (0,0,0), self.metronome_rect)
         
+        # Drum and hand stuff
         for i in range(numHands):
             t = time() - self.t0
             hand = hands[i]
@@ -139,9 +161,6 @@ class SampleListener(Leap.Listener):
                 self.surface.blit(label, rect2)
 
                 name = drum.soundfile[12:-5]
-
-                #image = pygame.image.load("./images/" + name + ".jpg")
-                #print(tuple(int(0.5*x) for x in drum.rect.size))
                 image = drum.image
                 pic_rect = image.get_rect()
                 pic_rect.center = drum.rect.center
