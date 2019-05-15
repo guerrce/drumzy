@@ -10,7 +10,7 @@ from time import time, sleep
 
 
 ACTIVATION_HEIGHT = 200
-UNTRIGGERED_DRUM_COLOR = (175, 175, 175) # gray
+UNTRIGGERED_DRUM_COLOR = (0, 175, 175) # gray
 TRIGGERED_DRUM_COLOR = (255, 0, 0)       # red
 BORDER_COLOR = (0,0,0)                   # black
 BORDER_SIZE = 5
