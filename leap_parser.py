@@ -19,7 +19,7 @@ BORDER_SIZE = 5
 MIDI_FILE = "test_midi.mid"
 WAV_FILE = "output.wav"
 METRONOME_BPM = 60
-TEMP_FILE = "temp_42069ayyy.mid"
+TEMP_FILE = "temp_xkcdisgr8.wav"
 
 pygame.font.init()
 #print(pygame.font.get_fonts())
@@ -37,6 +37,7 @@ class SampleListener(Leap.Listener):
         self.recording = False
         self.looping = False
         self.notes = NoteList()
+        self.newnotes = NoteList()
         self.t0 = time()
         self.countin = load_sound("sound_clips/CountIn1.wav")
         self.metronome_started = True
@@ -79,19 +80,20 @@ class SampleListener(Leap.Listener):
         if stop_loop:
             self.looping = False
             print("looping stopped")
+        self.notes.combine_with_new(self.newnotes)
         self.notes.update_wav()
+        self.newnotes = NoteList()
 
     def start_metronome(self, controller):
         self.metronome_t0 = time()
         self.metronome_started = True
 
-
     def stop_metronome(self,controller):
         self.metronome_started = False
 
-    def write_wav(self, controller):
+    def write_wav(self, controller, file = WAV_FILE):
         print("Saving...")
-        self.notes.write_wav(WAV_FILE)
+        self.notes.write_wav(file)
         print("Done Saving")
 
     def play_wav(self, controller):
@@ -148,7 +150,7 @@ class SampleListener(Leap.Listener):
                         #print(drum.triggered)
                         if self.recording and played:
                             print((drum.soundfile,t))
-                            self.notes.add_note(Note(drum.soundfile, t))
+                            self.newnotes.add_note(Note(drum.soundfile, t))
                     drum.trigger()
                 else:
                     drum.untrigger()

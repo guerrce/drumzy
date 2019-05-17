@@ -10,6 +10,17 @@ TRACK = 0
 CHANNEL = 0
 TIME = 0
 
+def getoffsetsandcoincidents(basetimelist, newtimelist, tolerance = 0.1):
+    offsets = []
+    coincidents = 0
+    for i in newtimelist:
+        closest = min(basetimelist, key = lambda x: abs(x-i))
+        diff = closest-i
+        offsets.append(diff)
+        if abs(diff) < tolerance:
+            coincidents += 1
+    return (offsets, coincidents)
+
 class Note():
     def __init__(self, wavfile, start_time):
         self.wavfile = wavfile
@@ -45,6 +56,45 @@ class NoteList():
     def print_list(self):
         for note in self.notes:
             note.print_note()
+
+    def combine_with_new(self, newnotelist):
+        if len(self.notes) == 0:
+            #simple if there are no previous notes
+            self.notes = [x for x in newnotelist.notes]
+            return
+
+        #Determine how similar the two notelists are by comparing the new times to the OG times
+        notetimes = [x.start_time for x in self.notes]
+        othernotetimes = [x.start_time for x in newnotelist.notes]
+
+        #Without any modification, what are offsets and the number of same time beats?
+        offsets, initnum_coincident = getoffsetsandcoincidents(notetimes, othernotetimes)
+
+        #Try some offsets to see if they make anything better
+        bestnumcoincident = 0
+        bestoffset = None
+        for i in offsets:
+            if abs(i) < 1:
+                updatenotetimes = [x+i for x in othernotetimes]
+                print(updatenotetimes)
+                newoffsets, newnum_coincident = getoffsetsandcoincidents(notetimes, updatenotetimes, 0.25)
+                if newnum_coincident > bestnumcoincident:
+                    bestnumcoincident = newnum_coincident
+                    bestoffset = i
+
+        #update with offset if offset causes 25% improvement on coincidents
+        newnotes = newnotelist.notes
+        print(bestnumcoincident)
+        print(initnum_coincident)
+        if bestnumcoincident > 1.25 * initnum_coincident:
+            createnotelist = NoteList()
+            for i in newnotes:
+                createnotelist.add_note(Note(i.wavfile, i.start_time + bestoffset))
+            newnotes = createnotelist.notes
+        self.notes = sorted(self.notes + newnotes, key = lambda x: x.start_time)
+        print([x.start_time for x in self.notes])
+
+
 
 def main():
     # for testing purposes only

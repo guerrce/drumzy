@@ -103,11 +103,11 @@ def main():
                 listener.start_recording(controller)
             elif "stop" in text or "stock" in text:
                 listener.stop_recording(controller)
-            elif "save" in text or "safe" in text :
+            elif "save" in text or "safe" in text or "say" in text: #This is one of the harder words to recognize
                 listener.write_wav(controller)
             elif "play" in text:
                 listener.play_wav(controller)
-            elif "loop" in text or "loup" in text:
+            elif "loop" in text or "loup" in text or "luke" in text or "blue" in text or "bloop" in text or "loot" in text: #This is one of the hardest words to recognize
                 listener.loop(controller)
         except sr.UnknownValueError:
             pass
@@ -116,7 +116,7 @@ def main():
 
     with m as source:
         r.adjust_for_ambient_noise(source)  # we only need to calibrate once, before we start listening
-    r.energy_threshold = 350
+    r.energy_threshold = 300
     r.dynamic_energy_threshold = False
 
     # start listening in the background (note that we don't have to do this inside a `with` statement)
