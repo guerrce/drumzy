@@ -59,20 +59,20 @@ Note: Don’t worry if the screen is black to begin with! The drum part of the v
 ## File descriptions:
 
 ### Key Files:
-drumzy.py - The main file. It initializes the GUI, creates Drum objects, lists the available sound files, and initializes the LeapAPI and Speech listeners, which are in charge of getting and processing data from the Leap Motion and Microphone. This is also where voice commands are registered and call their respective functions.
+- drumzy.py - The main file. It initializes the GUI, creates Drum objects, lists the available sound files, and initializes the LeapAPI and Speech listeners, which are in charge of getting and processing data from the Leap Motion and Microphone. This is also where voice commands are registered and call their respective functions.
 
-leap_parser.py - Defines SampleListener, which extends Leap.Listener. This class is what takes in Leap data, registers and plays drum hits, and updates the frames of the GUI, including highlighting triggered drums, cursor movement, and the metronome. Additionally, it defines functions that are triggered by voice commands.
+- leap_parser.py - Defines SampleListener, which extends Leap.Listener. This class is what takes in Leap data, registers and plays drum hits, and updates the frames of the GUI, including highlighting triggered drums, cursor movement, and the metronome. Additionally, it defines functions that are triggered by voice commands.
 
-wav_processor.py - This is the AudioProcessor Component. It first defines Note objects, which store which drum is played and at what time in the recording. Then, it uses these Note objects to define a NoteList object, which is the internal representation of a final recorded measure. This object stores a list of notes and handles turning this into a WAV object, writing it to a file, and most importantly beat synchronization when merging two NoteLists.
+- wav_processor.py - This is the AudioProcessor Component. It first defines Note objects, which store which drum is played and at what time in the recording. Then, it uses these Note objects to define a NoteList object, which is the internal representation of a final recorded measure. This object stores a list of notes and handles turning this into a WAV object, writing it to a file, and most importantly beat synchronization when merging two NoteLists.
 
 ### Other Files:
 
-drum.py - contains the Drum class implementation. This class is used to represent a drum. Each drum keeps track of its area in the GUI, as well as it’s area in the virtual Leap Motion plane. It also contains its corresponding sound, and whether or not it is triggered. There are object methods to trigger and untrigger the drum, as well as some observers to tell whether or not a point is in its triggering area, as well as its note value.
+- drum.py - contains the Drum class implementation. This class is used to represent a drum. Each drum keeps track of its area in the GUI, as well as it’s area in the virtual Leap Motion plane. It also contains its corresponding sound, and whether or not it is triggered. There are object methods to trigger and untrigger the drum, as well as some observers to tell whether or not a point is in its triggering area, as well as its note value.
 
-load_sound.py - defines a function for loading sounds using the pygame API
+- load_sound.py - defines a function for loading sounds using the pygame API
 
-textbox.py - A file to render multiline textboxes in the GUI (for the application instructions) adapted from https://www.pygame.org/pcr/text_rect/index.php
+- textbox.py - A file to render multiline textboxes in the GUI (for the application instructions) adapted from https://www.pygame.org/pcr/text_rect/index.php
 
-images/ - a folder containing images used to represent different kinds of drums
+- images/ - a folder containing images used to represent different kinds of drums
 
-sound_clips/ - a folder containing sound files, which are played when their corresponding drum is played. There are multiple different sound files for each drum, which can be switched out in the code.
+- sound_clips/ - a folder containing sound files, which are played when their corresponding drum is played. There are multiple different sound files for each drum, which can be switched out in the code.
