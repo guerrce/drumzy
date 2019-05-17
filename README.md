@@ -18,9 +18,11 @@ Thanks must be given to Thomas Carotti for posting this on Piazza, and making th
 
 #### For Windows:
 
-So we are roughly going to follow the instructions at https://support.leapmotion.com/hc/en-us/articles/223784048-Generating-a-Python-3-3-0-Wrapper-with-SWIG-2-0-9, but they have some ambiguities that I will clarify below. Also make sure to heed the note unintuitively at the bottom of those instructions for using the x64 configuration if your system calls for it.
+Disclaimer: This is finicky and somewhat hard, but I have done my best to describe what ultimately ended up working for me. Because it is so hard to get this right, I have included a zipped file of my fully built LeapPython folder as LeapPythonWindows. I don't think this will work as I believe that the folder has to be built locally for its system, but given how finicky the instructions below can be, it's worth a Hail Mary try. So before doing the steps below, unzip this file, rename it to LeapPython, and place it in the home directory and see if it works. If it doesn't (it probably won't), then dive into the steps below.
 
-Hopefully this works, but these steps were ambiguous enough that it took me 2 weeks to get fully right. I hope I cleared any ambiguities with my writeup above, but am unsure how this could cause other issues on other systems. Also if you are using Windows 10 and these fail the first time, try the fix outlined here: https://forums.leapmotion.com/t/resolved-windows-10-fall-creators-update-bugfix/6585
+We are roughly going to follow the instructions at https://support.leapmotion.com/hc/en-us/articles/223784048-Generating-a-Python-3-3-0-Wrapper-with-SWIG-2-0-9, but they have some ambiguities that I will clarify below. Also make sure to heed the note (unintuitively) at the bottom of those instructions for using the x64 configuration if your system calls for it.
+
+Hopefully this works, but these steps were ambiguous enough that it took me 2 weeks to get fully right, and I am unsure how this could cause other issues on other systems. For starters, if you are using Windows 10 and these fail the first time, try the fix outlined here: https://forums.leapmotion.com/t/resolved-windows-10-fall-creators-update-bugfix/6585
 
 1. Download SWIG for Windows at http://www.swig.org/Doc1.3/Windows.html and add it to the PATH so you can call SWIG from the command line
 2. Download Visual Studio with the basic C++ compiler (Step 1 in linked guide)
