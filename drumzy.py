@@ -39,7 +39,7 @@ def create_drums(count):
     count_to_grid = {1: (1,1), 2: (1,2), 4: (2,2), 6: (2,3), 8: (2,4)}
 
     if count not in count_to_grid.keys():
-        raise ValueError("Cannot have " + count + " drums in grid. Try 1, 2, 4, or 8 drums.")
+        raise ValueError("Cannot have " + count + " drums in grid. Try 1, 2, 4, 6, or 8 drums.")
 
     #initialize spaces of areas in window
     window_width = SCREEN_SIZE[0] - MENU_SIZE
