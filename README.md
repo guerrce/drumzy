@@ -1,7 +1,7 @@
 # Drumzy
 6.835 Final Project
 
-#### Collaborators: Sanchit Bhattacharjee and Cesar Guerrero
+Collaborators: Sanchit Bhattacharjee and Cesar Guerrero
 
 ## Instructions:
 ### Wrapping the LeapSDK for Python 3.6
