@@ -84,15 +84,15 @@ class NoteList():
 
         #update with offset if offset causes 25% improvement on coincidents
         newnotes = newnotelist.notes
-        print(bestnumcoincident)
-        print(initnum_coincident)
+        #print(bestnumcoincident)
+        #print(initnum_coincident)
         if bestnumcoincident > 1.25 * initnum_coincident:
             createnotelist = NoteList()
             for i in newnotes:
                 createnotelist.add_note(Note(i.wavfile, i.start_time + bestoffset))
             newnotes = createnotelist.notes
         self.notes = sorted(self.notes + newnotes, key = lambda x: x.start_time)
-        print([x.start_time for x in self.notes])
+        #print([x.start_time for x in self.notes])
 
 
 
