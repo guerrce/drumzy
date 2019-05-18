@@ -79,3 +79,5 @@ Note: Don’t worry if the screen is black to begin with! The drum part of the v
 - images/ - a folder containing images used to represent different kinds of drums
 
 - sound_clips/ - a folder containing sound files, which are played when their corresponding drum is played. There are multiple different sound files for each drum, which can be switched out in the code.
+
+- README.md - This, because programmers love recursive humor
